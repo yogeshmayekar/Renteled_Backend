@@ -3,5 +3,6 @@ dotenv.config();
 
 export const {
     DB_URL,
-    PORT
+    PORT,
+    JWT_SECRET
 } = process.env;

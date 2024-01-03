@@ -1,4 +1,5 @@
 import Hotel from "../models/hotels.js";
+import CustomErrorHandler from "../utils/error.js";
 
 // logic of the create new hotel 
 export const createHotel = async(req, res, next)=>{
@@ -8,7 +9,7 @@ export const createHotel = async(req, res, next)=>{
         const saveHotel = await newHotels.save()
         res.status(200).json(saveHotel);
     }catch(err){
-        res.status(500).json(err) // handle error here
+        return next(err) // handle error here
     }
 }
 
