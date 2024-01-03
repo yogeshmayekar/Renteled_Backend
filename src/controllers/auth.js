@@ -11,8 +11,9 @@ export const register = async(req, res, next)=>{
         //1.1 validation
     
         const registerSchema = Joi.object({
-            name:Joi.string().min(3).max(30).required(),
+            username:Joi.string().min(3).max(30).required(),
             email:Joi.string().email().required(),
+            phone:Joi.string(),
             password:Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
             repeat_password:Joi.ref('password')
         })
@@ -34,7 +35,7 @@ export const register = async(req, res, next)=>{
         }
 
         //1.3 Hashing password
-        // const salt = bcrypt.genSaltSync(10);
+        const salt = bcrypt.genSaltSync(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
         //1.4 prepare the model
