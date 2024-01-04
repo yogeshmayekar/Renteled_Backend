@@ -32,6 +32,22 @@ class CustomErrorHandler extends Error {    //extended the javaScript inbild err
     static serverError(message="image uploading failed"){
         return new CustomErrorHandler(500, message);
     }
+    
+    static unableToCreateHotel(message){
+        return new CustomErrorHandler(500, message);
+    }
+    
+    static unableToUpdateHotel(message){
+        return new CustomErrorHandler(500, message);
+    }
+    
+    static unableToDeleteHotel(message){
+        return new CustomErrorHandler(500, message);
+    }
+    
+    static unableToFetchHotel(message){
+        return new CustomErrorHandler(500, message);
+    }
 }   
 
 export default CustomErrorHandler;

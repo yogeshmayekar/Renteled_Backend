@@ -9,7 +9,7 @@ export const createHotel = async(req, res, next)=>{
         const saveHotel = await newHotels.save()
         res.status(200).json(saveHotel);
     }catch(err){
-        return next(err) // handle error here
+        return next(CustomErrorHandler.unableToCreateHotel("Unable to create hotel right now, please try after some time")) // handle error here
     }
 }
 
@@ -19,7 +19,7 @@ export const updateHotel = async(req, res, next)=>{
         const updateHotel = await Hotel.findByIdAndUpdate(res.params.id, {$set:req.body}, {new:true})
         res.status(200).json(updateHotel);
     }catch(err){
-        return next(err)
+        return next(CustomErrorHandler.unableToUpdateHotel("Unable to update hotel details right now, please try after some time"))
     }
 
 }
@@ -30,7 +30,7 @@ export const deleteHotel = async(req, res, next)=>{
         await Hotel.findByIdAndDelete(res.params.id, {$set:req.body}, {new:true})
         res.status(200).json("hotel has been deleted");
     }catch(err){
-        return next(err)
+        return next(CustomErrorHandler.unableToDeleteHotel("cant delete hotel right now, please try after some time."))
     }
 }
 
@@ -40,7 +40,7 @@ export const getHotel = async(req, res, next)=>{
         const hotel = await Hotel.findById(res.params.id)
         res.status(200).json(hotel);
     }catch(err){
-        return next(err)
+        return next(CustomErrorHandler.unableToFetchHotel("Unable to get hotel details right now, please try after some time."))
     }
 }
 
@@ -50,6 +50,6 @@ export const getAllHotels = async(req, res, next)=>{
         const hotels = await Hotel.find()
         res.status(200).json(hotels);
     }catch(err){
-        res.status(500).json(err)
+        return next(CustomErrorHandler.unableToFetchHotel("Unable to fetch hotels, please try after some time."))
     }
 }
