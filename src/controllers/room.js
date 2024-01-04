@@ -1,5 +1,6 @@
 import Room from '../models/rooms.js';
 import Hotel from '../models/hotels.js';
+import CustomErrorHandler from '../utils/error.js';
 
 
 // create rooms
@@ -14,11 +15,11 @@ export const createRoom = async(req, res, next)=>{
             $push: { rooms: savedRoom._id },
           });
         } catch (err) {
-          next(err);
+          next(CustomErrorHandler.unableToFindRoom());
         }
         res.status(200).json(savedRoom);
       } catch (err) {
-        next(err);
+        next(CustomErrorHandler.unableToCreateRoom());
       }
 }
 
@@ -32,7 +33,7 @@ export const updateRoom = async (req, res, next) => {
       );
       res.status(200).json(updatedRoom);
     } catch (err) {
-      next(err);
+      next(CustomErrorHandler.unableToFindRoom());
     }
 };
 
@@ -46,11 +47,11 @@ export const deleteRoom = async (req, res, next) => {
           $pull: { rooms: req.params.id },
         });
       } catch (err) {
-        next(err);
+        next(CustomErrorHandler.unableToFindRoom());
       }
       res.status(200).json("Room has been deleted.");
     } catch (err) {
-      next(err);
+      next(CustomErrorHandler.unableToDeleteRoom());
     }
 };
 
@@ -60,7 +61,7 @@ export const getRoom = async (req, res, next) => {
       const room = await Room.findById(req.params.id);
       res.status(200).json(room);
     } catch (err) {
-      next(err);
+      next(CustomErrorHandler.unableToFetchRoom("unable to frtch room details"));
     }
 };
 
@@ -70,6 +71,6 @@ export const getRooms = async (req, res, next) => {
       const rooms = await Room.find();
       res.status(200).json(rooms);
     } catch (err) {
-      next(err);
+      next(CustomErrorHandler.unableToFetchRoom("unable to frtch all room details"));
     }
 };

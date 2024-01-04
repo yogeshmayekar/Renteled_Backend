@@ -48,6 +48,22 @@ class CustomErrorHandler extends Error {    //extended the javaScript inbild err
     static unableToFetchHotel(message){
         return new CustomErrorHandler(500, message);
     }
+    
+    static unableToFindRoom(message="error!, unable to find and update a room"){
+        return new CustomErrorHandler(500, message);
+    }
+    
+    static unableToCreateRoom(message="error!, unable to create a room, please try after some time"){
+        return new CustomErrorHandler(500, message);
+    }
+    
+    static unableToDeleteRoom(message="error!, unable to delete a room, please try after some time"){
+        return new CustomErrorHandler(500, message);
+    }
+    
+    static unableToFetchRoom(message){
+        return new CustomErrorHandler(500, message);
+    }
 }   
 
 export default CustomErrorHandler;
