@@ -8,6 +8,10 @@ class CustomErrorHandler extends Error {    //extended the javaScript inbild err
     static alreadyExist(message){
         return new CustomErrorHandler(409, message);
     }
+    
+    static unableToCreateUser(message){
+        return new CustomErrorHandler(500, message);
+    }
 
     static incorerctCredentials(message="Incorrect Username or Password"){
         return new CustomErrorHandler(401, message);

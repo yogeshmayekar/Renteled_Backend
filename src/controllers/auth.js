@@ -3,6 +3,7 @@ import Joi from 'joi'
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config/index.js";
+import CustomErrorHandler from "../utils/error.js";
 
 
 //1. register controller 
@@ -49,7 +50,7 @@ export const register = async(req, res, next)=>{
         res.status(200).send("User has been created.");
 
     }catch(err){
-        next(err)
+        next(CustomErrorHandler.unableToCreateUser("someting went wrong while sign up, please try after some time."))
     }
 }
 
@@ -58,7 +59,7 @@ export const register = async(req, res, next)=>{
 export const login = async(req, res, next)=>{
     try{
         const user = await User.findOne({username:req.body.username})
-        if(!user) return next(createError(404, "User not found"))
+        if(!user) return next(CustomErrorHandler.incorerctCredentials())
 
         //compare the password
         const match = await bcrypt.compare(req.body.password, user.password)
@@ -75,7 +76,7 @@ export const login = async(req, res, next)=>{
         }).status(200).json({ details: { ...otherDetails }, isAdmin });
 
     }catch(err){
-        next(err)
+        next(CustomErrorHandler.unAuthorized());
     }
 
 }
