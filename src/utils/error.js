@@ -64,6 +64,14 @@ class CustomErrorHandler extends Error {    //extended the javaScript inbild err
     static unableToFetchRoom(message){
         return new CustomErrorHandler(500, message);
     }
+    
+    static unableToUpdateUser(message="unable to update user"){
+        return new CustomErrorHandler(500, message);
+    }
+    
+    static unableToDeleteUser(message="unable to delete user"){
+        return new CustomErrorHandler(500, message);
+    }
 }   
 
 export default CustomErrorHandler;
