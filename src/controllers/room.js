@@ -61,7 +61,7 @@ export const getRoom = async (req, res, next) => {
       const room = await Room.findById(req.params.id);
       res.status(200).json(room);
     } catch (err) {
-      next(CustomErrorHandler.unableToFetchRoom("unable to frtch room details"));
+      next(CustomErrorHandler.unableToFetchRoom("unable to fetch room details"));
     }
 };
 
@@ -74,3 +74,4 @@ export const getRooms = async (req, res, next) => {
       next(CustomErrorHandler.unableToFetchRoom("unable to frtch all room details"));
     }
 };
+

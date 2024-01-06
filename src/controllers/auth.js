@@ -14,7 +14,6 @@ export const register = async(req, res, next)=>{
         const registerSchema = Joi.object({
             username:Joi.string().min(3).max(30).required(),
             email:Joi.string().email().required(),
-            phone:Joi.string(),
             password:Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
             repeat_password:Joi.ref('password')
         })
@@ -30,11 +29,12 @@ export const register = async(req, res, next)=>{
             const Exist = await User.exists({email:req.body.email});//it will returen true or false
             if(Exist===true) {
                 return next(CustomErrorHandler.alreadyExist("Email Id is already Exist"));
-            }
+        }
         }catch(err){
-            return next(err)
+            next()
         }
 
+    
         //1.3 Hashing password
         const salt = bcrypt.genSaltSync(10);
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -45,11 +45,11 @@ export const register = async(req, res, next)=>{
             email:req.body.email,
             password:hashedPassword
         })
-
+        
         await newUser.save()
         res.status(200).send("User has been created.");
-
     }catch(err){
+        // console.log(err)
         next(CustomErrorHandler.unableToCreateUser("someting went wrong while sign up, please try after some time."))
     }
 }
