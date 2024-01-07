@@ -80,3 +80,9 @@ export const login = async(req, res, next)=>{
     }
 
 }
+
+//logout 
+export const logout = (req, res, next)=>{
+    res.clearCookie('jwtToken', {path:'/'});
+    return res.status(200).json({ message: 'Logout successful' });
+}
