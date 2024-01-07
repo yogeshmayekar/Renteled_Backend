@@ -1,10 +1,12 @@
-import User from "../models/hotels.js";
+import User from "../models/user.js";
 import CustomErrorHandler from "../utils/error.js"
 
 // logic of the get user
 export const getUser = async(req, res, next)=>{
     try{
-        const user = await User.findById(res.params.id)
+        // console.log("user id is", req.params.id)
+        const user = await User.findById({_id:req.params.id}).select('-updatedAt -createdAt -__v');
+        // console.log("nothing", user);
         res.status(200).json(user);
     }catch(err){
         next(CustomErrorHandler.notFound("User not found"));
@@ -14,10 +16,10 @@ export const getUser = async(req, res, next)=>{
 // logic of the get all users 
 export const getUsers = async(req, res, next)=>{
     try{
-        const users = await User.find()
-        res.status(200).json(users);
+      const users = await User.find().select('-updatedAt -createdAt -__v');
+      res.status(200).json(users);
     }catch(err){
-        next(CustomErrorHandler.notFound("Users not found"));
+      next(CustomErrorHandler.notFound("Users not found"));
     }
 }
 
@@ -36,7 +38,6 @@ export const updateUser = async (req,res,next)=>{
 }
 
 //logic for delete user
-
 export const deleteUser = async (req,res,next)=>{
     try {
       await User.findByIdAndDelete(req.params.id);
@@ -44,4 +45,4 @@ export const deleteUser = async (req,res,next)=>{
     } catch (err) {
       next(CustomErrorHandler.unableToDeleteUser());
     }
-  }
+}
